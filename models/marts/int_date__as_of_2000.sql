@@ -43,6 +43,7 @@ dim_date as (
         end as week_day_desc
     
     from date_keys
+    order by 1
 )
 
 select * from dim_date
