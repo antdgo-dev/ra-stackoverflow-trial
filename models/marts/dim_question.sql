@@ -21,7 +21,7 @@ all_questions as (
     select * from questions
 ),
 
-dim_questions as (
+dim_question as (
 
     select
         row_number() over ( order by question_id ) as rowid, *
@@ -29,4 +29,4 @@ dim_questions as (
     from all_questions
 )
 
-select * from dim_questions
+select * from dim_question
