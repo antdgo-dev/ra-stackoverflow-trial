@@ -68,7 +68,7 @@ fct_posts_questions as (
         ifnull( posts_questions.comment_count, 0) as comment_count,
         ifnull( posts_questions.favorite_count, 0) as favorite_count,
         ifnull( posts_questions.view_count, 0) as view_count,
-        ifnull( posts_questions.score 0) as score,
+        ifnull( posts_questions.score, 0) as score
 
     from posts_questions
     
