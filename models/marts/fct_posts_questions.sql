@@ -64,11 +64,11 @@ fct_posts_questions as (
         ifnull( dim_last_edit_date.date_id, 19000101 ) as last_edit_date_id,
         
         -- measures
-        posts_questions.answer_count,
-        posts_questions.comment_count,
-        posts_questions.favorite_count,
-        posts_questions.view_count,
-        posts_questions.score
+        ifnull( posts_questions.answer_count, 0) as answer_count,
+        ifnull( posts_questions.comment_count, 0) as comment_count,
+        ifnull( posts_questions.favorite_count, 0) as favorite_count,
+        ifnull( posts_questions.view_count, 0) as view_count,
+        ifnull( posts_questions.score 0) as score,
 
     from posts_questions
     
