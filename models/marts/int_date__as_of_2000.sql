@@ -1,5 +1,17 @@
 with
 
+unknown_date as (
+
+    select
+        19000101 as date_id,
+        cast ( '1900-01-01' as date format 'YYYY-MM-DD' ) as date,
+        1900 as year,
+        -1 as quarter,
+        -1 as month,
+        -1 as day,
+        'N/A' as week_day_desc
+),
+
 date_spine as (
 
     {{
@@ -19,7 +31,7 @@ date_keys as (
     from date_spine
 ),
 
-dim_date as (
+date_keys_extended as (
     
     select
         cast(
@@ -44,6 +56,15 @@ dim_date as (
     
     from date_keys
     order by 1
+),
+
+dim_date as (
+
+    select * from unknown_date
+
+    union all
+
+    select * from date_keys_extended
 )
 
 select * from dim_date
