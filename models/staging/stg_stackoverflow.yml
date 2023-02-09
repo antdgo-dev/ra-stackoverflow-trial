@@ -1,0 +1,34 @@
+version: 2
+
+models:
+
+  - name: stg_posts_questions
+    columns:
+
+      - name: question_id
+        tests:
+          - relationships:
+              to: ref('stg_questions')
+              field: question_id
+
+      - name: owner_id
+        tests:
+          - relationships:
+              to: ref('stg_owners')
+              field: owner_id
+
+      - name: answer_count
+        tests:
+          - not_less_than_zero
+
+      - name: comment_count
+        tests:
+          - not_less_than_zero
+
+      - name: favorite_count
+        tests:
+          - not_less_than_zero
+      
+      - name: view_count
+        tests:
+          - not_less_than_zero
