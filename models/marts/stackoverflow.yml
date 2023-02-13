@@ -1,0 +1,135 @@
+version: 2
+
+models:
+
+  - name: fct_posts_questions
+    description: "Each record represents a question with its owner asked at a creation date. Includes the last activity and last edit dates. For each question, there are available the measures listed below."
+    columns:
+
+      - name: question_rowid
+        description: Row id to dim_question
+    
+      - name: owner_rowid
+        description: Row id to dim_owner
+    
+      - name: creation_date_id
+        description: Id to role-playing dimension dim_creation_date
+    
+      - name: last_activity_date_id
+        description: Id to role-playing dimension dim_last_activity_date
+    
+      - name: last_edit_date_id
+        description: Id to role-playing dimension dim_last_edit_date
+    
+      - name: answer_count
+        description: '# of answers to a question'
+    
+      - name: comment_count
+        description: '# of comments to a question'
+    
+      - name: favorite_count
+        description: '# of times a question has been marked as favorite'
+    
+      - name: view_count
+        description: '# of times a question has been viewed'
+    
+      - name: score
+        description: Value that represents the usefullness of a question
+
+
+  - name: int_date__as_of_2000
+    description: Integration model to base the role-playing date dimensions on. Contains records from 01/01/2000 until 31/12/2024. Includes a record for unknown dates (01/01/1900).
+    columns:
+
+      - name: date_id
+        description: Rowid in the form YYYYMMDD
+
+      - name: date
+        description: The date
+        
+      - name: year
+        description: Year number in the form YYYY
+        
+      - name: quarter
+        description: Quarter number in the form Q
+        
+      - name: month
+        description: Month number in the form MM
+        
+      - name: day
+        description: Day number in the form DD
+        
+      - name: week_day_desc
+        description: Day of the week (Monday, ..., Sunday)
+        
+
+  - name: bdg_tags
+    description: Bridge table that establishes an N:M relationship between tag and question dimensions
+    columns:
+
+      - name: question_rowid
+        description: Row id to dim_question
+      
+      - name: tag_rowid
+        description: Row id to dim_tag
+      
+
+  - name: tbl_totals_by_tag_and_date
+    description: View that computes several totals by tag and date to be used for reporting
+    columns:
+
+      - name: tag
+        description: The tag
+
+      - name: creation_date
+        description: The creation date of the questions where the tag appears
+
+      - name: questions
+        description: Total number of questions where a tag appears by question creation date
+
+      - name: answers
+        description: Total number of answers to questions where a tag appears by question creation date
+
+      - name: views
+        description: Total number of views of questions where a tag appears by creation date
+        
+      
+
+macros:
+
+  - name: get_opportunity_tags
+    description: Extracts a list of tags that are considered to be an opportunity for developers to answer or a risk of churn of users. Gets the 'n_tags' lowest ratio answers-questions tags over 'n_answers' answers, and reduces the tags to those with a number of answers in the range 'l_limit' and 'r_limit'.
+    arguments:
+    
+      - name: n_answers
+        type: integer
+        description: There must be more than this number of answers to consider a tag relevant.
+      - name: n_tags
+        type: integer
+        description: The number of tags with the lowest answers-questions ratio (answers/questions).
+      - name: l_limit
+        type: integer
+        description: Out of the n_tags gathered, defines the range left limit of the number of answers to select the final tags.
+      - name: r_limit
+        type: integer
+        description: Out of the n_tags gathered, defines the range right limit of the number of answers to select the final tags.
+
+
+  - name: not_less_than_zero
+    description: Custom generic test that checks the value of a column in a model is not negative
+    arguments:
+
+      - name: model
+        type: string
+        description: The model on which the test is defined
+
+      - name: column_name
+        type: string
+        description: The column on which the test is defined
+
+
+
+analyses:
+
+  - name: popular_topics_pct_of_answers
+    description: Calculates the % of answers for each tag within the group of tags gathered by the macro 'get_opportunity_tags'. Helps understand, combined with the answers-questions ratio, which of those tags may be worth putting more effort on. [ There is a page in a report on Looker Studio with this analysis ]
