@@ -1,8 +1,16 @@
 version: 2
 
 sources:
+
   - name: stackoverflow
     database: earnest-cosmos-375111
     schema: stackoverflow
     tables:
       - name: posts_questions_202209
+  
+  - name: stackoverflow_src
+    database: earnest-cosmos-375111
+    schema: dbt_stackoverflow_src
+    tables:
+      - name: posts_questions
+
