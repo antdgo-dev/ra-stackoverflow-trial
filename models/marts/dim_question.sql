@@ -4,8 +4,7 @@ unknown_question as (
 
     select
         -1 as question_id,
-        'Unknown' as title,
-        'Unknown' as body
+        'Unknown' as title
 ),
 
 questions as (

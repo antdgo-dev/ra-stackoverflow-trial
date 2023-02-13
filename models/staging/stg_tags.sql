@@ -2,6 +2,6 @@ select
     id as question_id,
     tags
   
-from {{ source( 'stackoverflow', 'posts_questions_202209' ) }}
+from {{ source( 'stackoverflow_src', 'posts_questions' ) }}
 
 where id is not null
