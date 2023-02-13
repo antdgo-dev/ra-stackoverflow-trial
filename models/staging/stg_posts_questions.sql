@@ -15,4 +15,4 @@ select
     view_count,
     score
 
-from {{ source( 'stackoverflow', 'posts_questions_202209' ) }}
+from {{ source( 'stackoverflow_src', 'posts_questions' ) }}
