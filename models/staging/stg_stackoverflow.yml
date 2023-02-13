@@ -3,6 +3,7 @@ version: 2
 models:
 
   - name: stg_posts_questions
+    description: Staging table of facts for model 'fct_posts_questions'
     columns:
 
       - name: question_id
@@ -32,3 +33,27 @@ models:
       - name: view_count
         tests:
           - not_less_than_zero
+
+
+  - name: stg_owners
+    description: Staging table for the owner dimension (model 'dim_owner')
+
+
+  - name: stg_questions
+    description: Staging table for the question dimension (model 'dim_question')
+
+
+  - name: stg_tags
+    description: Staging table of facts for model 'bdg_tags'
+    columns:
+
+      - name: question_id
+        description: Id to the staging model for questions
+        tests:
+          - relationships:
+              to: ref('stg_questions')
+              field: question_id
+      
+      - name: tags
+        description: String that contains all the tags for a question separated by '|'.
+      
