@@ -12,7 +12,7 @@ with
             sum(answers) as n_answers,
             round(sum(answers) / sum(questions), 2) as ratio_aq
 
-        from {{ ref('tbl_totals_by_tag') }}
+        from {{ ref('tbl_totals_by_tag_and_date') }}
 
         group by tag
         having n_answers > {{ n_answers }}
