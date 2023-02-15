@@ -27,8 +27,8 @@ dim_question as (
 dim_creation_date as (
 
     select
-        date_id,
-        date
+        creation_date_id,
+        creation_date
 
     from {{ ref( 'dim_creation_date' ) }}
 ),
@@ -50,7 +50,7 @@ tbl_totals_by_tag_and_date as (
 
     select
         t.tag,
-        c.date as creation_date,
+        c.creation_date,
 
         count(b.question_rowid) as questions,
         sum(f.answer_count) as answers,
@@ -61,11 +61,11 @@ tbl_totals_by_tag_and_date as (
     left join dim_tag as t on b.tag_rowid = t.rowid
     left join dim_question as q on b.question_rowid = q.rowid
     left join fct_posts_questions as f on f.question_rowid = q.rowid
-    left join dim_creation_date as c on f.creation_date_id = c.date_id
+    left join dim_creation_date as c on f.creation_date_id = c.creation_date_id
 
     group by
         t.tag,
-        c.date
+        c.creation_date
 
 )
 

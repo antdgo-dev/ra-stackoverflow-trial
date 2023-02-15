@@ -4,7 +4,7 @@ select
   sum(b.answers ) as n_answers,
   round( sum(b.answers) / sum(b.questions), 2 ) as ratio_aq
 
-from {{ ref( 'tbl_totals_by_tag' ) }} as b
+from {{ ref( 'tbl_totals_by_tag_and_date' ) }} as b
 
 group by
   b.tag
